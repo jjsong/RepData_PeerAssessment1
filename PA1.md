@@ -133,8 +133,18 @@ hist(stepsDay$steps, xlab = "Total Steps per Day",
 ### histogram of the total number of steps tabke each day
 library(ggplot2)
 stepsDay <- aggregate(steps ~ date, act, sum)
+
+# Mean (red color) and Median (green color)
+stepsMeanDay <- round(mean(stepsDay$steps), 2)
+stepsMdianDay <- round(median(stepsDay$steps), 2)
+
+# histogram
 g <- ggplot(stepsDay, aes(x = steps)) 
-g + geom_histogram(fill = "steelblue", binwidth = 5000) + labs(x="Total Steps per Day")+ labs(y="Frequency") + labs(title ="Histogram of the total number of steps taken each day") 
+g + geom_histogram(fill = "steelblue") + geom_vline(xintercept = stepsMeanDay, color = "red") + geom_vline(xintercept = stepsMdianDay, color = "green", lty=2) + labs(x="Total Steps per Day")+ labs(y="Frequency") + labs(title ="Histogram of the total number of steps taken each day") 
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
 ![plot of chunk 2using.ggolt2](figure/2using.ggolt2.png) 
@@ -145,9 +155,21 @@ g + geom_histogram(fill = "steelblue", binwidth = 5000) + labs(x="Total Steps pe
 
 
 ```r
-### Mean and Median 
-stepsMeanDay <- round(mean(stepsDay$steps), 2)
-stepsMdianDay <- round(median(stepsDay$steps), 2)
+### Mean  
+stepsMeanDay
+```
+
+```
+## [1] 10766
+```
+
+```r
+### Median
+stepsMdianDay 
+```
+
+```
+## [1] 10765
 ```
 
 ***The mean number of steps taken per day is 1.0766 &times; 10<sup>4</sup> and the median number of steps taken per day is 1.0765 &times; 10<sup>4</sup> .***
@@ -336,6 +358,28 @@ medianStepsDayNew <- median(stepsDayNew$steps)
 ***Comparing with the first part of the assignment, mean value is not chanaged and median value has shifted a little.*** 
 
 
+
+### using ggplot (another way)
+
+```r
+### histogram(new data) 
+stepsDayNew <- aggregate(steps ~ date, data=newAct, sum, na.rm=TRUE)
+
+# Mean (red color) and Median (green color)
+meanStepsDayNew <- mean(stepsDayNew$steps)
+medianStepsDayNew <- median(stepsDayNew$steps)
+
+# histogram
+stepsDayNew <- aggregate(steps ~ date, act, sum)
+g <- ggplot(stepsDayNew, aes(x = steps)) 
+g + geom_histogram(fill = "steelblue") + geom_vline(xintercept = meanStepsDayNew, color = "red") + geom_vline(xintercept = medianStepsDayNew, color = "green", lty=2) + labs(x="Total Steps per Day(new data)")+ labs(y="Frequency") + labs(title ="Histogram of the total number of steps taken each day(new data") 
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk newdata.hist.ggplot](figure/newdata.hist.ggplot.png) 
 
 
 ## 5. Are there differences in activity patterns between weekdays and weekends?
